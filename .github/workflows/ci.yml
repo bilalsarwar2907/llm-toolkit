@@ -65,3 +65,17 @@ jobs:
       - name: Build
         working-directory: src-tauri
         run: cargo build
+
+  ci-success:
+    name: build-and-lint
+    needs: build-and-lint
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check all matrix jobs passed
+        run: |
+          if [ "${{ needs.build-and-lint.result }}" != "success" ]; then
+            echo "One or more matrix jobs failed."
+            exit 1
+          fi
+          echo "All matrix jobs passed."        
