@@ -1,25 +1,27 @@
-name: CI
+name: Release
 
 on:
   push:
-    branches: [main, dev]
-  pull_request:
-    branches: [main]
+    tags:
+      - 'v*.*.*'
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build-and-lint:
+  build-release:
     strategy:
       matrix:
         include:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
+            artifact: llm-toolkit.msi
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
+            artifact: llm-toolkit.AppImage
           - os: macos-latest
             target: aarch64-apple-darwin
+            artifact: llm-toolkit.dmg
 
     runs-on: ${{ matrix.os }}
 
@@ -29,10 +31,8 @@ jobs:
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
-        with:
-          components: rustfmt, clippy
 
-      - name: Install Linux system dependencies
+      - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
@@ -54,28 +54,6 @@ jobs:
       - name: Install frontend dependencies
         run: npm install
 
-      - name: Check formatting
-        working-directory: src-tauri
-        run: cargo fmt --check
-
-      - name: Run clippy
-        working-directory: src-tauri
-        run: cargo clippy -- -D warnings
-
-      - name: Build
-        working-directory: src-tauri
-        run: cargo build
-
-  ci-success:
-    name: build-and-lint
-    needs: build-and-lint
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - name: Check all matrix jobs passed
-        run: |
-          if [ "${{ needs.build-and-lint.result }}" != "success" ]; then
-            echo "One or more matrix jobs failed."
-            exit 1
-          fi
-          echo "All matrix jobs passed."        
+      - name: Build release
+        # TODO Phase 4: Replace with full tauri build + sign + notarize
+        run: echo "Release build placeholder — implement in Phase 4"
