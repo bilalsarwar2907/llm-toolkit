@@ -1,0 +1,62 @@
+# catalog.toml
+#
+# Curated model catalog for llm-toolkit v1.
+# Ownership: project maintainer (D-06).
+# Update cadence: release-driven. No dynamic discovery in v1.
+#
+# Fields:
+#   repo_id         — HuggingFace repository (owner/repo)
+#   filename        — exact GGUF filename within that repo
+#   parameter_count — human-readable size label (e.g. "7B")
+#   quant           — quantization level (e.g. "Q4_K_M")
+#   approx_size_gb  — approximate download size in GiB
+#   category        — "recommended" or "advanced"
+#   min_ram_gb      — minimum system RAM required to run safely
+#
+# D-05: 32B models must have category = "advanced".
+#       The recommendation engine filters them out for systems with <= 24 GB RAM.
+
+[[models]]
+repo_id         = "bartowski/Llama-3.2-3B-Instruct-GGUF"
+filename        = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
+parameter_count = "3B"
+quant           = "Q4_K_M"
+approx_size_gb  = 2.0
+category        = "recommended"
+min_ram_gb      = 4
+
+[[models]]
+repo_id         = "bartowski/Qwen2.5-7B-Instruct-GGUF"
+filename        = "Qwen2.5-7B-Instruct-Q4_K_M.gguf"
+parameter_count = "7B"
+quant           = "Q4_K_M"
+approx_size_gb  = 4.7
+category        = "recommended"
+min_ram_gb      = 8
+
+[[models]]
+repo_id         = "bartowski/Meta-Llama-3.1-8B-Instruct-GGUF"
+filename        = "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf"
+parameter_count = "8B"
+quant           = "Q4_K_M"
+approx_size_gb  = 4.9
+category        = "recommended"
+min_ram_gb      = 8
+
+[[models]]
+repo_id         = "bartowski/Qwen2.5-14B-Instruct-GGUF"
+filename        = "Qwen2.5-14B-Instruct-Q4_K_M.gguf"
+parameter_count = "14B"
+quant           = "Q4_K_M"
+approx_size_gb  = 9.0
+category        = "recommended"
+min_ram_gb      = 16
+
+[[models]]
+repo_id         = "bartowski/Qwen2.5-32B-Instruct-GGUF"
+filename        = "Qwen2.5-32B-Instruct-Q4_K_M.gguf"
+parameter_count = "32B"
+quant           = "Q4_K_M"
+approx_size_gb  = 20.0
+category        = "advanced"
+min_ram_gb      = 32
